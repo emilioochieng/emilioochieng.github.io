@@ -1,0 +1,36 @@
+---
+import { SITE } from '../config';
+import { fmt } from '../i18n';
+import { projects, skills } from '../data/projects';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const v = { name: SITE.name };
+---
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="avail">{t.hero.available}</span>
+      <span class="eyebrow">{t.hero.eyebrow}</span>
+      <h1>{fmt(t.hero.hi, v).split(SITE.name)[0]}<em>{SITE.name}</em></h1>
+      <p class="role-line" id="role-line" data-roles={JSON.stringify(t.hero.roles)}>{t.hero.roleLead} <strong id="role-text">{t.hero.roles[0]}</strong><span class="caret" aria-hidden="true"></span></p>
+      <p class="lead">{t.hero.lead}</p>
+      <div class="cta-row">
+        <a class="btn" href="#projects">{t.hero.ctaWork}</a>
+        <a class="btn ghost" href="#contact">{t.hero.ctaTalk}</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <img src="/assets/hero.webp" alt={SITE.name} width="640" height="800" fetchpriority="high" data-fallback />
+      <div class="fallback" aria-hidden="true">{SITE.initials}</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="stats">
+      <div class="stat"><b id="stat-projects" data-count={projects.length}>{projects.length}</b><span>{t.stats.projects}</span></div>
+      <div class="stat"><b id="stat-repos" data-count="0">–</b><span>{t.stats.repos}</span></div>
+      <div class="stat"><b data-count={skills.languages.length}>{skills.languages.length}</b><span>{t.stats.languages}</span></div>
+      <div class="stat"><b>{t.stats.openValue}</b><span>{t.stats.open}</span></div>
+    </div>
+  </div>
+</section>

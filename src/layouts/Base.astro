@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+import { LANGS, LANG_CODES, type Lang } from '../i18n';
+
+interface Props { lang: Lang; title: string; description: string; path?: string; noindex?: boolean; client?: unknown }
+const { lang, title, description, path = '', noindex = false, client } = Astro.props;
+const canonical = new URL(`/${lang}/${path}`, SITE.url).href;
+const sameAs = [
+  `https://github.com/${SITE.social.github}`, SITE.social.linkedin,
+  SITE.social.devto && `https://dev.to/${SITE.social.devto}`,
+  SITE.social.twitter && `https://x.com/${SITE.social.twitter}`,
+].filter(Boolean);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Person', name: SITE.name, url: SITE.url,
+  jobTitle: 'Full-stack developer and data engineer', address: { '@type': 'PostalAddress', addressLocality: 'Nairobi', addressCountry: 'KE' },
+  sameAs,
+};
+const ogLocale = LANGS[lang].locale.replace('-', '_');
+---
+<!doctype html>
+<html lang={lang} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    {!noindex && LANG_CODES.map((l) => <link rel="alternate" hreflang={l} href={new URL(`/${l}/${path}`, SITE.url).href} />)}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(`/en/${path}`, SITE.url).href} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#1f7a4d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={`${SITE.url}/og.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          var t = s || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <slot />
+    {client && <script id="client-data" type="application/json" set:html={JSON.stringify(client)} />}
+  </body>
+</html>

@@ -1,0 +1,16 @@
+---
+import { SITE } from '../config';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+<section class="section" id="about">
+  <div class="container about-grid">
+    <div class="about-photo reveal"><img src="/assets/about.webp" alt="" width="640" height="640" loading="lazy" data-fallback /></div>
+    <div class="about-copy reveal">
+      <span class="eyebrow">{SITE.location}</span>
+      <h2>{t.about.title}</h2>
+      <p>{t.about.p1}</p><p>{t.about.p2}</p><p>{t.about.p3}</p>
+    </div>
+  </div>
+</section>

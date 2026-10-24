@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Skills from '../../components/Skills.astro';
+import Projects from '../../components/Projects.astro';
+import Feeds from '../../components/Feeds.astro';
+import SqlWork from '../../components/SqlWork.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE } from '../../config';
+import { LANG_CODES, LANGS, fmt, getDict, type Lang } from '../../i18n';
+
+export function getStaticPaths() { return LANG_CODES.map((lang) => ({ params: { lang } })); }
+const lang = Astro.params.lang as Lang;
+const t = getDict(lang);
+const vars = { name: SITE.name };
+---
+<Base lang={lang} title={fmt(t.meta.title, vars)} description={fmt(t.meta.description, vars)} client={{ lang, locale: LANGS[lang].locale, t }}>
+  <Header t={t} lang={lang} />
+  <main id="main">
+    <Hero t={t} />
+    <About t={t} />
+    <Skills t={t} />
+    <Projects t={t} />
+    <Feeds t={t} />
+    <SqlWork t={t} />
+    <Contact t={t} />
+  </main>
+  <Footer t={t} />
+  <script>import '../../scripts/main.ts';</script>
+</Base>

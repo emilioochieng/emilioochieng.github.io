@@ -1,0 +1,18 @@
+---
+import { skills } from '../data/projects';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const groups = [['languages', t.skills.languages], ['web', t.skills.web], ['data', t.skills.data], ['tools', t.skills.tools]] as const;
+---
+<section class="section alt" id="skills">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">{t.skills.title}</span><h2>{t.skills.sub}</h2></div>
+    <div class="skill-groups">
+      {groups.map(([key, label]) => (
+        <div class="skill-card reveal"><h3>{label}</h3>
+          <ul class="chips">{skills[key].map((s) => <li class="chip">{s}</li>)}</ul></div>
+      ))}
+    </div>
+  </div>
+</section>

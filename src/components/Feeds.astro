@@ -1,0 +1,28 @@
+---
+import { SITE } from '../config';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const sk = [1, 2, 3];
+---
+<section class="section alt" id="github">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">GitHub</span><h2>{t.github.title}</h2><p>{t.github.sub}</p></div>
+    <div class="grid" id="repos" aria-live="polite" aria-busy="true">
+      {sk.map(() => <div class="skeleton" aria-hidden="true"></div>)}
+      <p class="sr-only">{t.github.loading}</p>
+    </div>
+    <p class="more"><a class="btn ghost" href={`https://github.com/${SITE.social.github}`} target="_blank" rel="noopener noreferrer">{t.github.viewAll} →</a></p>
+  </div>
+</section>
+
+<section class="section" id="writing">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">dev.to</span><h2>{t.articles.title}</h2><p>{t.articles.sub}</p></div>
+    <div class="grid" id="articles" aria-live="polite" aria-busy="true">
+      {sk.map(() => <div class="skeleton" aria-hidden="true"></div>)}
+      <p class="sr-only">{t.articles.loading}</p>
+    </div>
+    {SITE.social.devto && <p class="more"><a class="btn ghost" href={`https://dev.to/${SITE.social.devto}`} target="_blank" rel="noopener noreferrer">{t.articles.viewAll} →</a></p>}
+  </div>
+</section>

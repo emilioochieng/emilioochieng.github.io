@@ -1,0 +1,14 @@
+---
+import { SITE } from '../config';
+import { fmt } from '../i18n';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="container">
+    <span>{fmt(t.footer.rights, { year: new Date().getFullYear(), name: SITE.name, location: SITE.location })}</span>
+    <a href="#top">{t.footer.top} ↑</a>
+  </div>
+</footer>
+<button class="to-top" id="to-top" type="button" aria-label={t.footer.top}>↑</button>

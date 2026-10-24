@@ -1,0 +1,25 @@
+---
+import { LANG_CODES } from '../i18n';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Emilio Odongo</title>
+    <meta http-equiv="refresh" content="1;url=/en/" />
+    <link rel="canonical" href="https://emilioochieng.github.io/en/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline define:vars={{ supported: LANG_CODES }}>
+      // Remembered choice first, then the browser's language, then English.
+      var pick = 'en';
+      try {
+        var saved = localStorage.getItem('lang');
+        var prefs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']).map(function (l) { return String(l).slice(0, 2).toLowerCase(); });
+        pick = supported.indexOf(saved) > -1 ? saved : (prefs.filter(function (l) { return supported.indexOf(l) > -1; })[0] || 'en');
+      } catch (e) {}
+      location.replace('/' + pick + '/' + location.hash);
+    </script>
+  </head>
+  <body><p>Redirecting… <a href="/en/">English</a> · <a href="/sw/">Kiswahili</a> · <a href="/fr/">Français</a> · <a href="/es/">Español</a></p></body>
+</html>

@@ -1,0 +1,32 @@
+---
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+<section class="section alt" id="sql">
+  <div class="container sql-grid">
+    <div class="reveal">
+      <span class="eyebrow">PostgreSQL · DBeaver</span>
+      <div class="section-head" style="margin-bottom:18px"><h2>{t.sql.title}</h2></div>
+      <p style="color:var(--muted);font-size:18px">{t.sql.intro}</p>
+      <ul><li>{t.sql.c1}</li><li>{t.sql.c2}</li></ul>
+    </div>
+    <div class="reveal">
+      <span class="code-label">{t.sql.example}</span>
+<pre class="code" tabindex="0"><code><span class="k">CREATE TABLE</span> duka_products (
+  id         <span class="k">SERIAL PRIMARY KEY</span>,
+  product    <span class="k">TEXT NOT NULL</span>,
+  category   <span class="k">TEXT</span>,
+  price      <span class="k">NUMERIC</span>(10,2),
+  stock      <span class="k">INTEGER DEFAULT</span> 0,
+  supplier   <span class="k">TEXT</span>
+);
+
+<span class="c">-- low stock to reorder</span>
+<span class="k">SELECT</span> product, stock, supplier
+<span class="k">FROM</span>   duka_products
+<span class="k">WHERE</span>  stock &lt; 10
+<span class="k">ORDER BY</span> stock;</code></pre>
+    </div>
+  </div>
+</section>

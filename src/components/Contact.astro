@@ -1,0 +1,40 @@
+---
+import { SITE } from '../config';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const s = SITE.social;
+const links = [
+  { ico: 'GH', label: 'GitHub', sub: `@${s.github}`, href: `https://github.com/${s.github}` },
+  { ico: 'in', label: 'LinkedIn', sub: 'Emilio Ochieng', href: s.linkedin },
+  s.devto && { ico: 'DEV', label: 'dev.to', sub: `@${s.devto}`, href: `https://dev.to/${s.devto}` },
+  s.twitter && { ico: 'X', label: 'X / Twitter', sub: `@${s.twitter}`, href: `https://x.com/${s.twitter}` },
+  SITE.whatsapp && { ico: 'WA', label: t.contact.whatsapp, sub: `+${SITE.whatsapp}`, href: `https://wa.me/${SITE.whatsapp}` },
+  { ico: '@', label: t.contact.emailMe, sub: SITE.email, href: `mailto:${SITE.email}` },
+].filter(Boolean) as { ico: string; label: string; sub: string; href: string }[];
+---
+<section class="section" id="contact">
+  <div class="container contact-grid">
+    <div class="reveal">
+      <div class="section-head"><span class="eyebrow">{t.contact.connect}</span><h2>{t.contact.title}</h2><p>{t.contact.sub}</p></div>
+      <form class="form" id="contact-form" novalidate>
+        <div class="field"><label for="c-name">{t.contact.name}</label><input id="c-name" name="name" autocomplete="name" required maxlength="120" /></div>
+        <div class="field"><label for="c-email">{t.contact.email}</label><input id="c-email" name="email" type="email" autocomplete="email" required maxlength="254" /></div>
+        <div class="field"><label for="c-msg">{t.contact.message}</label><textarea id="c-msg" name="message" required minlength="5" maxlength="4000"></textarea></div>
+        <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <button class="btn" type="submit" id="c-send">{t.contact.send}</button>
+        <p class="status" id="c-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">{t.contact.elsewhere}</span>
+      <div class="socials">
+        {links.map((l) => (
+          <a class="social" href={l.href} target={l.href.startsWith('mailto:') ? undefined : '_blank'} rel="noopener noreferrer">
+            <span class="ico" aria-hidden="true">{l.ico}</span><span>{l.label}<small>{l.sub}</small></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

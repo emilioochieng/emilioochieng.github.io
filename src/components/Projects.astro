@@ -1,0 +1,32 @@
+---
+import { projects } from '../data/projects';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const filters = [['all', t.projects.all], ['apps', t.projects.apps], ['data', t.projects.data], ['education', t.projects.education]];
+---
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">{t.projects.title}</span><h2>{t.projects.sub}</h2></div>
+    <div class="filters" role="group" aria-label={t.projects.title}>
+      {filters.map(([id, label]) => <button class="filter" type="button" data-filter={id} aria-pressed={id === 'all' ? 'true' : 'false'}>{label}</button>)}
+    </div>
+    <div class="grid" id="projects-grid">
+      {projects.map((p) => (
+        <article class="card" data-category={p.category}>
+          <span class="kind">{p.kind}</span>
+          <h3>{p.title}{p.inProgress && <span class="badge">{t.projects.inProgress}</span>}</h3>
+          <p>{p.description}</p>
+          <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+          {(p.live || p.code) && (
+            <div class="links">
+              {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer">{t.projects.live} →</a>}
+              {p.code && <a href={p.code} target="_blank" rel="noopener noreferrer">{t.projects.code} →</a>}
+            </div>
+          )}
+        </article>
+      ))}
+      <div class="empty" id="projects-empty" hidden>{t.projects.empty}</div>
+    </div>
+  </div>
+</section>
